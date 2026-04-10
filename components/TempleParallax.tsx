@@ -8,183 +8,235 @@ export default function TempleParallax() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
 
-  const skyY = useTransform(scrollYProgress, [0, 1], ['0%', '-20%'])
-  const templeY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%'])
-  const flowerY = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
-  const textY = useTransform(scrollYProgress, [0, 1], ['20px', '-20px'])
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
+  const skyY     = useTransform(scrollYProgress, [0, 1], ['0%', '-15%'])
+  const templeY  = useTransform(scrollYProgress, [0, 1], ['5%', '-8%'])
+  const coupleY  = useTransform(scrollYProgress, [0, 1], ['8%', '-4%'])
+  const textY    = useTransform(scrollYProgress, [0, 1], ['15px', '-15px'])
+  const opacity  = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0])
 
   return (
     <section
       ref={ref}
       className="relative min-h-screen overflow-hidden flex items-center justify-center"
-      style={{ background: 'linear-gradient(180deg, #FFD9A0 0%, #FFBB66 50%, #FF8C22 100%)' }}
+      style={{ background: 'linear-gradient(180deg, #FFE0A0 0%, #FFBB66 40%, #FF8C22 80%, #C85000 100%)' }}
     >
-      {/* Sky / Background layer */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{ y: skyY }}
-      >
-        {/* Gradient sky */}
+      {/* ── Layer 1: Sky with sun rays ── */}
+      <motion.div className="absolute inset-0 z-0" style={{ y: skyY }}>
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, #FFF4E0 0%, #FFD080 40%, #FF9040 80%, #FF6820 100%)',
+            background: 'linear-gradient(180deg, #FFF4E0 0%, #FFD080 35%, #FF9040 70%, #C85000 100%)',
           }}
         />
-        {/* Sun rays */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2">
+
+        {/* Sun */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2">
           <motion.div
-            className="relative w-32 h-32"
+            className="relative w-28 h-28"
             animate={{ rotate: 360 }}
-            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
           >
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
                 className="absolute inset-0"
                 style={{
-                  background: `linear-gradient(${i * 30}deg, transparent 40%, rgba(255,200,0,0.3) 50%, transparent 60%)`,
+                  background: `linear-gradient(${i * 30}deg, transparent 38%, rgba(255,210,0,0.35) 50%, transparent 62%)`,
                 }}
               />
             ))}
           </motion.div>
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full"
-            style={{ background: 'radial-gradient(circle, #FFE066 0%, #FFB800 70%)' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full"
+            style={{ background: 'radial-gradient(circle, #FFE566 0%, #FFB800 70%)' }}
           />
         </div>
 
+        {/* Golden haze bands */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-2/3"
+          style={{
+            background: 'linear-gradient(180deg, transparent 0%, rgba(200,80,0,0.3) 100%)',
+          }}
+        />
+
         {/* Clouds */}
         {[
-          { x: '10%', y: '8%', scale: 1 },
-          { x: '65%', y: '12%', scale: 0.7 },
-          { x: '35%', y: '5%', scale: 0.85 },
-        ].map((cloud, i) => (
+          { x: '8%',  y: '9%',  scale: 1,    dur: 9 },
+          { x: '62%', y: '13%', scale: 0.65, dur: 12 },
+          { x: '32%', y: '5%',  scale: 0.8,  dur: 10 },
+        ].map((c, i) => (
           <motion.div
             key={i}
-            className="absolute text-5xl opacity-40"
-            style={{ left: cloud.x, top: cloud.y, scale: cloud.scale }}
-            animate={{ x: [0, 20, 0] }}
-            transition={{ duration: 8 + i * 2, repeat: Infinity }}
+            className="absolute text-5xl opacity-30"
+            style={{ left: c.x, top: c.y, scale: c.scale }}
+            animate={{ x: [0, 25, 0] }}
+            transition={{ duration: c.dur, repeat: Infinity }}
           >
             ☁️
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Temple image layer */}
+      {/* ── Layer 2: Temple — real photo fills the lower scene ── */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-10 flex justify-center"
+        className="absolute bottom-0 left-0 right-0 z-10"
         style={{ y: templeY }}
       >
-        {/* Try to load temple image, fallback to CSS temple */}
-        <div className="relative w-full max-w-2xl mx-auto">
-          <img
-            src="/assets/temple/temple-real.jpg"
-            alt="Temple"
-            className="w-full object-cover object-bottom rounded-t-3xl"
-            style={{ maxHeight: '70vh', objectPosition: 'top' }}
-            onError={e => {
-              ;(e.target as HTMLImageElement).style.display = 'none'
-            }}
-          />
-          {/* CSS Temple fallback */}
-          <div className="absolute inset-0 flex items-end justify-center pb-4 pointer-events-none">
-            <SVGTemple />
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Foreground flowers */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none"
-        style={{ y: flowerY }}
-      >
-        <div className="flex justify-between px-4 pb-2">
-          {/* Left banana tree */}
-          <div className="text-6xl sm:text-8xl opacity-80 select-none">🌿</div>
-          {/* Right banana tree */}
-          <div className="text-6xl sm:text-8xl opacity-80 select-none">🌿</div>
-        </div>
-        {/* Flower bottom strip */}
-        <div
-          className="h-12 sm:h-16"
+        {/* Real temple photo */}
+        <img
+          src="/assets/temple/temple-real.jpg"
+          alt="Temple"
+          className="w-full object-cover object-top"
           style={{
-            background: 'linear-gradient(90deg, #FF6B8A, #FFB3C6, #FF8FAB, #FFB3C6, #FF6B8A)',
-            opacity: 0.3,
+            maxHeight: '65vh',
+            maskImage: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 20%, black 60%)',
+            WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 20%, black 60%)',
+          }}
+          onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+        />
+
+        {/* Illustrated temple overlay — blended for depth */}
+        <div
+          className="absolute inset-0 flex justify-center items-end opacity-20"
+          style={{ mixBlendMode: 'luminosity' }}
+        >
+          <img
+            src="/assets/temple/temple-illustration.png"
+            alt=""
+            className="h-full max-h-[65vh] w-auto object-contain"
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+          />
+        </div>
+
+        {/* Ground glow */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32"
+          style={{
+            background: 'linear-gradient(180deg, transparent, rgba(200,80,0,0.5))',
           }}
         />
       </motion.div>
 
-      {/* Floating petals */}
-      <FloatingPetals count={20} />
-
-      {/* Center text overlay */}
+      {/* ── Layer 3: Couple standing before the temple ── */}
       <motion.div
-        className="relative z-30 text-center px-6"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 flex justify-center"
+        style={{ y: coupleY }}
+      >
+        <img
+          src="/assets/couple/couple-holding.png"
+          alt="Buusha & Renuka"
+          className="w-44 sm:w-60 object-contain"
+          style={{
+            filter: 'drop-shadow(0 -4px 30px rgba(255,160,40,0.6)) drop-shadow(0 8px 20px rgba(0,0,0,0.4))',
+            maskImage: 'linear-gradient(180deg, black 60%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(180deg, black 60%, transparent 100%)',
+          }}
+          onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+        />
+      </motion.div>
+
+      {/* ── Floating petals ── */}
+      <FloatingPetals count={18} />
+
+      {/* ── Layer 4: Centered text — the emotional message ── */}
+      <motion.div
+        className="relative z-30 text-center px-6 pb-32 sm:pb-40"
         style={{ y: textY, opacity }}
       >
         <motion.div
-          className="inline-block"
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.85, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9 }}
         >
-          <div
-            className="px-8 py-6 rounded-2xl"
-            style={{
-              background: 'rgba(255,248,240,0.85)',
-              backdropFilter: 'blur(10px)',
-              border: '2px solid rgba(212,175,55,0.5)',
-              boxShadow: '0 8px 32px rgba(139,26,43,0.2)',
-            }}
+          {/* Small label */}
+          <motion.p
+            className="text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold mb-4"
+            style={{ color: '#FFF4C2', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
           >
-            <p className="text-[#8B1A2B] text-sm uppercase tracking-widest mb-2 font-semibold">
-              ✦ Together Forever ✦
-            </p>
-            <h2
-              className="text-2xl sm:text-4xl font-bold"
-              style={{
-                fontFamily: 'Playfair Display, serif',
-                background: 'linear-gradient(135deg, #8B1A2B, #D4AF37)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              A Sacred Union
-            </h2>
-            <p className="text-[#C8972F] mt-2 text-sm sm:text-base" style={{ fontFamily: 'Noto Serif Tamil, serif' }}>
-              இறைவன் ஆசியுடன் திருமணம்
-            </p>
-            <div className="flex justify-center gap-2 mt-3 text-xl">
-              <span className="animate-bounce" style={{ animationDelay: '0s' }}>🌸</span>
-              <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>🪔</span>
-              <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>🌸</span>
-            </div>
-          </div>
+            ✦ After This Long Beautiful Journey ✦
+          </motion.p>
+
+          {/* Main heading */}
+          <motion.h2
+            className="text-3xl sm:text-5xl font-black leading-tight mb-3"
+            style={{
+              fontFamily: 'Playfair Display, serif',
+              background: 'linear-gradient(135deg, #FFF4C2, #FFD700, #FFF4C2)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 3px 12px rgba(0,0,0,0.5))',
+            }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+          >
+            With Your Blessings,
+          </motion.h2>
+
+          <motion.h2
+            className="text-3xl sm:text-5xl font-black leading-tight mb-5"
+            style={{
+              fontFamily: 'Playfair Display, serif',
+              background: 'linear-gradient(135deg, #FFD700, #FF8C22, #FFD700)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 3px 12px rgba(0,0,0,0.5))',
+            }}
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.45, duration: 0.7 }}
+          >
+            We Join Hands Forever
+          </motion.h2>
+
+          {/* Tamil line */}
+          <motion.p
+            className="text-sm sm:text-base font-semibold mb-5"
+            style={{
+              fontFamily: 'Noto Serif Tamil, serif',
+              color: '#FFE8A0',
+              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.55 }}
+          >
+            உங்கள் ஆசியுடன் நாங்கள் ஒன்றாகிறோம் 🙏
+          </motion.p>
+
+          {/* Animated icons */}
+          <motion.div
+            className="flex justify-center gap-4 text-2xl sm:text-3xl"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.65 }}
+          >
+            {['🌸', '🪔', '💍', '🪔', '🌸'].map((e, i) => (
+              <motion.span
+                key={i}
+                animate={{ y: [0, -10, 0], scale: [1, 1.2, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.25 }}
+                style={{
+                  display: 'inline-block',
+                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))',
+                }}
+              >
+                {e}
+              </motion.span>
+            ))}
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>
-  )
-}
-
-function SVGTemple() {
-  return (
-    <svg viewBox="0 0 400 300" className="w-full max-w-md opacity-20" fill="none">
-      {/* Gopuram silhouette */}
-      <polygon points="200,20 230,80 260,100 270,200 130,200 140,100 170,80" fill="#8B1A2B" />
-      <polygon points="200,40 220,90 240,110 245,200 155,200 160,110 180,90" fill="#C81C1C" />
-      <rect x="145" y="200" width="110" height="80" fill="#8B1A2B" />
-      <rect x="165" y="220" width="30" height="60" fill="#5C0A15" />
-      <rect x="205" y="220" width="30" height="60" fill="#5C0A15" />
-      {/* Steps */}
-      <rect x="100" y="270" width="200" height="8" fill="#D4AF37" opacity="0.5" />
-      <rect x="120" y="262" width="160" height="8" fill="#D4AF37" opacity="0.4" />
-      {/* Kalash */}
-      <ellipse cx="200" cy="24" rx="8" ry="12" fill="#D4AF37" />
-      <line x1="200" y1="12" x2="200" y2="5" stroke="#D4AF37" strokeWidth="2" />
-    </svg>
   )
 }

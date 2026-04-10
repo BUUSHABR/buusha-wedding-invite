@@ -18,14 +18,23 @@ export default function InviteMessage() {
         background: 'linear-gradient(160deg, #FFF8F0 0%, #FFF0E0 100%)',
       }}
     >
-      {/* Radha Krishna background image */}
+      {/* Radha Krishna background — full soft overlay */}
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `url('/assets/backgrounds/radha-krishna.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
+        }}
+      />
+      {/* Kolam pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
+          backgroundSize: '180px',
+          backgroundRepeat: 'repeat',
         }}
       />
 
@@ -55,121 +64,109 @@ export default function InviteMessage() {
       ))}
 
       <div className="relative z-10 max-w-xl mx-auto w-full text-center">
-        {/* Decorative top */}
+        {/* Doodle couple */}
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-6"
+          transition={{ duration: 0.7, type: 'spring', bounce: 0.3 }}
         >
-          <span className="text-5xl">💌</span>
+          <img
+            src="/assets/doodle/couple-poses.png"
+            alt="Couple waving"
+            className="w-36 sm:w-48 object-contain"
+            style={{
+              filter: 'drop-shadow(0 8px 24px rgba(139,26,43,0.3))',
+              animation: 'bounceGentle 4s ease-in-out infinite',
+            }}
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+          />
         </motion.div>
 
-        {/* Main card */}
-        <motion.div
-          className="relative rounded-3xl overflow-hidden"
+        {/* Heading */}
+        <motion.h2
+          className="text-xl sm:text-2xl font-bold mb-8"
           style={{
-            background: 'rgba(255,255,255,0.8)',
-            backdropFilter: 'blur(20px)',
-            border: '2px solid rgba(212,175,55,0.3)',
-            boxShadow: '0 20px 60px rgba(139,26,43,0.15)',
+            fontFamily: 'Playfair Display, serif',
+            background: 'linear-gradient(135deg, #8B1A2B, #C81C1C)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
           }}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: -16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ delay: 0.2 }}
         >
-          {/* Top stripe */}
-          <div
-            className="h-2"
-            style={{ background: 'linear-gradient(90deg, #8B1A2B, #D4AF37, #8B1A2B)' }}
-          />
+          Our Heartfelt Invitation
+        </motion.h2>
 
-          <div className="px-6 sm:px-10 py-8">
-            {/* Heading */}
-            <motion.h2
-              className="text-xl sm:text-2xl font-bold mb-6"
-              style={{
-                fontFamily: 'Playfair Display, serif',
-                color: '#8B1A2B',
-              }}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              Our Heartfelt Invitation
-            </motion.h2>
-
-            {/* Animated lines */}
-            <div className="space-y-4">
-              {LINES.map((line, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 + i * 0.15 }}
-                >
-                  <p
-                    className="text-base sm:text-lg font-semibold text-[#8B1A2B] leading-snug"
-                    style={{ fontFamily: 'Poppins, sans-serif' }}
-                  >
-                    {line.text}
-                  </p>
-                  <p
-                    className="text-xs sm:text-sm text-[#C8972F] mt-0.5"
-                    style={{ fontFamily: 'Noto Serif Tamil, serif' }}
-                  >
-                    {line.tamil}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Signature */}
+        {/* Animated lines — alternating side slides */}
+        <div className="space-y-5">
+          {LINES.map((line, i) => (
             <motion.div
-              className="mt-8 pt-6 border-t border-[#D4AF37]/30"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.8 }}
+              key={i}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.1 + i * 0.12 }}
             >
-              <p className="text-[#C8972F] text-sm mb-3" style={{ fontFamily: 'Poppins' }}>
-                With love & warmth,
+              <p
+                className="text-base sm:text-lg font-semibold text-[#8B1A2B] leading-snug"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
+              >
+                {line.text}
               </p>
               <p
-                className="text-2xl font-bold"
-                style={{
-                  fontFamily: 'Playfair Display, serif',
-                  background: 'linear-gradient(135deg, #8B1A2B, #D4AF37)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
+                className="text-xs sm:text-sm text-[#C8972F] mt-0.5"
+                style={{ fontFamily: 'Noto Serif Tamil, serif' }}
               >
-                Buusha & Renuka
+                {line.tamil}
               </p>
-              <div className="flex justify-center gap-2 mt-3">
-                {['🙏', '❤️', '🌸', '❤️', '🙏'].map((e, i) => (
-                  <motion.span
-                    key={i}
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                    style={{ display: 'inline-block' }}
-                  >
-                    {e}
-                  </motion.span>
-                ))}
-              </div>
             </motion.div>
-          </div>
+          ))}
+        </div>
 
-          {/* Bottom stripe */}
-          <div
-            className="h-2"
-            style={{ background: 'linear-gradient(90deg, #D4AF37, #8B1A2B, #D4AF37)' }}
-          />
+        {/* Divider */}
+        <div
+          className="h-px w-40 mx-auto my-8"
+          style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }}
+        />
+
+        {/* Signature */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+        >
+          <p className="text-[#C8972F] text-sm mb-3" style={{ fontFamily: 'Poppins' }}>
+            With love & warmth,
+          </p>
+          <p
+            className="text-2xl font-bold"
+            style={{
+              fontFamily: 'Playfair Display, serif',
+              background: 'linear-gradient(135deg, #8B1A2B, #D4AF37)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Buusha & Renuka
+          </p>
+          <div className="flex justify-center gap-2 mt-3">
+            {['🙏', '❤️', '🌸', '❤️', '🙏'].map((e, i) => (
+              <motion.span
+                key={i}
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                style={{ display: 'inline-block' }}
+              >
+                {e}
+              </motion.span>
+            ))}
+          </div>
         </motion.div>
 
         {/* Quote */}

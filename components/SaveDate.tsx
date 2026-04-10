@@ -14,10 +14,9 @@ interface DateCardProps {
   date: string
   detail: string
   color: string
-  delay: number
 }
 
-function DateCard({ emoji, event, eventTamil, day, date, detail, color, delay }: DateCardProps) {
+function DateCard({ emoji, event, eventTamil, day, date, detail, color }: DateCardProps) {
   return (
     <motion.div
       className="relative flex-1 min-w-[260px] max-w-sm rounded-3xl overflow-hidden"
@@ -25,10 +24,6 @@ function DateCard({ emoji, event, eventTamil, day, date, detail, color, delay }:
         background: 'rgba(255,255,255,0.9)',
         boxShadow: `0 20px 60px rgba(139,26,43,0.15), 0 0 0 2px rgba(212,175,55,0.3)`,
       }}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.7, delay, type: 'spring', bounce: 0.3 }}
       whileHover={{ y: -4, boxShadow: `0 24px 70px rgba(139,26,43,0.2)` }}
     >
       {/* Top colored header */}
@@ -78,7 +73,7 @@ function DateCard({ emoji, event, eventTamil, day, date, detail, color, delay }:
             color: '#8B1A2B',
           }}
         >
-          May 2026
+          June 2026
         </p>
 
         {/* Detail */}
@@ -207,26 +202,38 @@ export default function SaveDate() {
 
         {/* Date cards */}
         <div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
-          <DateCard
-            emoji="💍"
-            event="Engagement"
-            eventTamil="நிச்சயதார்த்தம்"
-            day="Saturday"
-            date="24"
-            detail="🕐 Morning Ceremony"
-            color="linear-gradient(135deg, #8B1A2B, #C81C1C)"
-            delay={0.2}
-          />
-          <DateCard
-            emoji="💒"
-            event="Wedding"
-            eventTamil="திருமணம்"
-            day="Sunday"
-            date="25"
-            detail="🌅 Morning Ceremony"
-            color="linear-gradient(135deg, #A0850C, #D4AF37)"
-            delay={0.4}
-          />
+          <motion.div
+            initial={{ opacity: 0, x: -80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, delay: 0.1, type: 'spring', bounce: 0.25 }}
+          >
+            <DateCard
+              emoji="💍"
+              event="Engagement"
+              eventTamil="நிச்சயதார்த்தம்"
+              day="Wednesday"
+              date="24"
+              detail="🌆 Evening 6PM – 8PM"
+              color="linear-gradient(135deg, #8B1A2B, #C81C1C)"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, delay: 0.25, type: 'spring', bounce: 0.25 }}
+          >
+            <DateCard
+              emoji="💒"
+              event="Wedding"
+              eventTamil="திருமணம்"
+              day="Thursday"
+              date="25"
+              detail="🌅 Morning 7:30AM – 9:30AM"
+              color="linear-gradient(135deg, #A0850C, #D4AF37)"
+            />
+          </motion.div>
         </div>
 
         {/* Location pill */}

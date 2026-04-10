@@ -18,19 +18,19 @@ export default function LocationQR() {
         background: 'linear-gradient(160deg, #5C0A15 0%, #8B1A2B 50%, #C81C1C 100%)',
       }}
     >
-      {/* Background decoration */}
+      {/* Kolam background pattern */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.07]"
         style={{
           backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
-          backgroundSize: '250px',
+          backgroundSize: '220px',
           backgroundRepeat: 'repeat',
           filter: 'invert(1)',
         }}
       />
 
-      {/* Corner temple images */}
-      <div className="absolute top-0 right-0 opacity-10 pointer-events-none w-48">
+      {/* Corner temple illustration */}
+      <div className="absolute top-0 right-0 opacity-20 pointer-events-none w-36 sm:w-52">
         <img
           src="/assets/temple/temple-illustration.png"
           alt=""
@@ -74,8 +74,8 @@ export default function LocationQR() {
             background: 'rgba(255,255,255,0.95)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
@@ -141,9 +141,8 @@ export default function LocationQR() {
                 />
 
                 <div className="space-y-1.5 text-sm text-[#5C0A15]" style={{ fontFamily: 'Poppins' }}>
-                  <p>📅 Engagement: May 24th, 2026</p>
-                  <p>💒 Wedding: May 25th, 2026</p>
-                  <p>🕐 Morning Ceremony</p>
+                  <p>📅 Engagement: June 24th, 2026 | 🌆 6PM – 8PM</p>
+                  <p>💒 Wedding: June 25th, 2026 | 🌅 7:30AM – 9:30AM</p>
                 </div>
 
                 {/* Tamil address */}

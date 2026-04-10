@@ -37,6 +37,15 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
         >
+          {/* Kolam background texture */}
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
+              backgroundSize: '200px',
+              backgroundRepeat: 'repeat',
+            }}
+          />
           {/* Animated Kolam SVG */}
           <div className="relative mb-6">
             <svg width="200" height="200" viewBox="0 0 200 200" fill="none">

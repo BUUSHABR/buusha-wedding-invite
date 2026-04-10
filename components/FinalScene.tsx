@@ -10,7 +10,7 @@ const FINAL_MESSAGES = [
   },
   {
     tamil: 'அன்போடு வருக, நன்றியோடு வாழ்த்துக',
-    english: 'Come with love, leave with our blessings 🙏',
+    english: 'Come with love, leave us with your blessings 🙏',
   },
 ]
 
@@ -22,23 +22,23 @@ export default function FinalScene() {
         background: 'linear-gradient(160deg, #FFF8F0 0%, #FFE4C4 30%, #FFD4A8 60%, #FFBB66 100%)',
       }}
     >
-      {/* Background wedding pattern */}
+      {/* Radha Krishna soft background */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url('/assets/backgrounds/wedding-bg.jpg')`,
+          backgroundImage: `url('/assets/backgrounds/radha-krishna.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: 0.15,
+          opacity: 0.18,
         }}
       />
 
       {/* Kolam overlay */}
       <div
-        className="absolute inset-0 opacity-[0.06]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
-          backgroundSize: '300px',
+          backgroundSize: '280px',
           backgroundRepeat: 'repeat',
         }}
       />
@@ -132,35 +132,31 @@ export default function FinalScene() {
 
       {/* Main content */}
       <div className="relative z-10 max-w-2xl mx-auto w-full text-center">
-        {/* Radha Krishna */}
+        {/* Couple holding hands — romantic centerpiece */}
         <motion.div
-          className="mb-6"
-          initial={{ opacity: 0, scale: 0.8 }}
+          className="flex justify-center mb-6"
+          initial={{ opacity: 0, scale: 0.85 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, type: 'spring', bounce: 0.25 }}
         >
-          <div className="relative inline-block">
-            <img
-              src="/assets/backgrounds/radha-krishna.jpg"
-              alt="Radha Krishna"
-              className="w-48 sm:w-60 h-auto object-contain mx-auto"
-              style={{
-                filter: 'drop-shadow(0 8px 24px rgba(212,175,55,0.4))',
-                animation: 'float 4s ease-in-out infinite',
-              }}
-              onError={e => {
-                ;(e.target as HTMLImageElement).style.display = 'none'
-              }}
-            />
-          </div>
+          <img
+            src="/assets/couple/couple-holding.png"
+            alt="Buusha & Renuka"
+            className="w-52 sm:w-64 object-contain rounded-3xl"
+            style={{
+              filter: 'drop-shadow(0 16px 40px rgba(139,26,43,0.35))',
+              animation: 'bounceGentle 5s ease-in-out infinite',
+            }}
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+          />
         </motion.div>
 
-        {/* Om + Blessings */}
+        {/* Om */}
         <motion.div
           className="mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
@@ -192,35 +188,20 @@ export default function FinalScene() {
           </motion.div>
         ))}
 
-        {/* Grand title */}
+        {/* Grand title — open flowing style */}
         <motion.div
-          className="my-8 px-6 py-6 rounded-3xl relative overflow-hidden"
-          style={{
-            background: 'rgba(255,255,255,0.85)',
-            backdropFilter: 'blur(20px)',
-            border: '2px solid rgba(212,175,55,0.4)',
-            boxShadow: '0 20px 60px rgba(139,26,43,0.15)',
-          }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          className="my-8 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
-              backgroundSize: '150px',
-              backgroundRepeat: 'repeat',
-            }}
-          />
-
-          <p className="text-[#C8972F] text-xs uppercase tracking-widest mb-3">
+          <p className="text-[#C8972F] text-xs uppercase tracking-widest mb-4">
             ✦ Sri Murugan Blessings ✦
           </p>
 
-          <h2
-            className="text-3xl sm:text-5xl font-black mb-2"
+          <motion.h2
+            className="text-4xl sm:text-6xl font-black"
             style={{
               fontFamily: 'Playfair Display, serif',
               background: 'linear-gradient(135deg, #8B1A2B, #D4AF37, #8B1A2B)',
@@ -228,11 +209,16 @@ export default function FinalScene() {
               WebkitTextFillColor: 'transparent',
               animation: 'glow 2s ease-in-out infinite alternate',
             }}
+            initial={{ x: -40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.5 }}
           >
             Buusha
-          </h2>
-          <div className="flex items-center justify-center gap-3 my-2">
-            <div className="h-px w-12 sm:w-20" style={{ background: 'linear-gradient(90deg, transparent, #D4AF37)' }} />
+          </motion.h2>
+
+          <div className="flex items-center justify-center gap-3 my-3">
+            <div className="h-px w-16 sm:w-24" style={{ background: 'linear-gradient(90deg, transparent, #D4AF37)' }} />
             <motion.span
               className="text-3xl"
               animate={{ scale: [1, 1.3, 1] }}
@@ -240,37 +226,50 @@ export default function FinalScene() {
             >
               ❤️
             </motion.span>
-            <div className="h-px w-12 sm:w-20" style={{ background: 'linear-gradient(90deg, #D4AF37, transparent)' }} />
+            <div className="h-px w-16 sm:w-24" style={{ background: 'linear-gradient(90deg, #D4AF37, transparent)' }} />
           </div>
-          <h2
-            className="text-3xl sm:text-5xl font-black mb-4"
+
+          <motion.h2
+            className="text-4xl sm:text-6xl font-black"
             style={{
               fontFamily: 'Playfair Display, serif',
               background: 'linear-gradient(135deg, #8B1A2B, #D4AF37, #8B1A2B)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
+            initial={{ x: 40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.6 }}
           >
             Renuka
-          </h2>
+          </motion.h2>
 
           <div
-            className="h-px w-full my-4"
+            className="h-px w-48 mx-auto my-5"
             style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }}
           />
 
-          <p
+          <motion.p
             className="text-[#8B1A2B] font-semibold text-sm sm:text-base"
             style={{ fontFamily: 'Poppins' }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.7 }}
           >
-            📅 May 24–25, 2026
-          </p>
-          <p
+            📅 June 24–25, 2026
+          </motion.p>
+          <motion.p
             className="text-[#C8972F] text-sm mt-1"
             style={{ fontFamily: 'Poppins' }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.8 }}
           >
             📍 Sri Lakshmi Mall, Sattur
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Final emojis */}

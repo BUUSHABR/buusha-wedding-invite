@@ -158,18 +158,17 @@ export default function WeddingStage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 mt-2">
           {/* Groom's family */}
           <motion.div
-            custom={5} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-            className="text-center p-4 rounded-xl"
-            style={{
-              background: 'rgba(212,175,55,0.08)',
-              border: '1px solid rgba(212,175,55,0.3)',
-            }}
+            className="text-center py-4"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, delay: 0.2 }}
           >
             <p className="text-xs text-[#C8972F] uppercase tracking-wider mb-2 font-semibold">Son of</p>
             <p className="text-[#8B1A2B] font-semibold text-sm sm:text-base" style={{ fontFamily: 'Poppins' }}>
               Mrs. Padmavathi
             </p>
-            <p className="text-[#D4AF37] text-xs">&</p>
+            <p className="text-[#D4AF37] text-xs my-1">&</p>
             <p className="text-[#8B1A2B] font-semibold text-sm sm:text-base" style={{ fontFamily: 'Poppins' }}>
               Mr. Kaliraj
             </p>
@@ -177,18 +176,17 @@ export default function WeddingStage() {
 
           {/* Bride's family */}
           <motion.div
-            custom={6} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-            className="text-center p-4 rounded-xl"
-            style={{
-              background: 'rgba(212,175,55,0.08)',
-              border: '1px solid rgba(212,175,55,0.3)',
-            }}
+            className="text-center py-4"
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, delay: 0.2 }}
           >
             <p className="text-xs text-[#C8972F] uppercase tracking-wider mb-2 font-semibold">Daughter of</p>
             <p className="text-[#8B1A2B] font-semibold text-sm sm:text-base" style={{ fontFamily: 'Poppins' }}>
               Mrs. Ramadevi
             </p>
-            <p className="text-[#D4AF37] text-xs">&</p>
+            <p className="text-[#D4AF37] text-xs my-1">&</p>
             <p className="text-[#8B1A2B] font-semibold text-sm sm:text-base" style={{ fontFamily: 'Poppins' }}>
               Mr. Sivakumar
             </p>
@@ -225,20 +223,30 @@ export default function WeddingStage() {
       </motion.div>
 
       {/* Banana trees sides */}
-      <div className="absolute bottom-0 left-0 opacity-30 pointer-events-none hidden sm:block">
+      <div className="absolute bottom-0 left-0 opacity-40 pointer-events-none hidden sm:block">
         <img
           src="/assets/banana/banana-tree.png"
           alt=""
-          className="h-48 w-auto"
+          className="h-56 w-auto"
           onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
         />
       </div>
-      <div className="absolute bottom-0 right-0 opacity-30 pointer-events-none hidden sm:block"
-        style={{ transform: 'scaleX(-1)' }}>
+      <div className="absolute bottom-0 right-0 opacity-40 pointer-events-none hidden sm:block">
         <img
           src="/assets/banana/banana-tree.png"
           alt=""
-          className="h-48 w-auto"
+          className="h-56 w-auto"
+          style={{ transform: 'scaleX(-1)' }}
+          onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+        />
+      </div>
+
+      {/* Temple illustration corner */}
+      <div className="absolute top-0 right-0 opacity-[0.07] pointer-events-none w-40 sm:w-56">
+        <img
+          src="/assets/temple/temple-illustration.png"
+          alt=""
+          className="w-full h-auto object-contain"
           onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
         />
       </div>

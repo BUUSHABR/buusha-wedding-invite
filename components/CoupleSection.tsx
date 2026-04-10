@@ -1,22 +1,39 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 
-const REAL_PHOTOS = [
-  { src: '/assets/couple/photo1.jpg', alt: 'Buusha & Renuka in metro', caption: 'Our first journey together 🚇' },
-  { src: '/assets/couple/photo2.jpg', alt: 'Together at the airport', caption: 'Every destination is better with you ✈️' },
-  { src: '/assets/couple/photo3.jpg', alt: 'Outdoor together', caption: 'Made for each other 💕' },
-]
-
-const DOODLE_POSES = [
-  '/assets/doodle/couple-poses.png',
-  '/assets/doodle/couple-garland.png',
+const MILESTONES = [
+  {
+    icon: '🌟',
+    title: 'Our Beginning',
+    titleTamil: 'எங்கள் ஆரம்பம்',
+    desc: 'Two hearts destined to meet 💫',
+    side: 'left',
+  },
+  {
+    icon: '🌸',
+    title: 'Love Blossomed',
+    titleTamil: 'காதல் மலர்ந்தது',
+    desc: 'Every moment became a cherished memory',
+    side: 'right',
+  },
+  {
+    icon: '💍',
+    title: 'Engagement',
+    titleTamil: 'நிச்சயதார்த்தம்',
+    desc: 'June 24, 2026 • Evening 6PM – 8PM',
+    side: 'left',
+  },
+  {
+    icon: '💒',
+    title: 'The Wedding',
+    titleTamil: 'திருமணம்',
+    desc: 'June 25, 2026 • Morning 7:30AM – 9:30AM',
+    side: 'right',
+  },
 ]
 
 export default function CoupleSection() {
-  const [activePhoto, setActivePhoto] = useState(0)
-
   return (
     <section
       className="relative min-h-screen py-16 px-4 overflow-hidden flex flex-col items-center justify-center"
@@ -24,191 +41,168 @@ export default function CoupleSection() {
         background: 'linear-gradient(160deg, #2D0A14 0%, #5C0A15 50%, #8B1A2B 100%)',
       }}
     >
-      {/* Stars */}
-      {Array.from({ length: 15 }).map((_, i) => (
+      {/* Kolam pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: `url('/assets/kolam/kolam-green.jpg')`,
+          backgroundSize: '220px',
+          backgroundRepeat: 'repeat',
+          filter: 'invert(1)',
+        }}
+      />
+
+      {/* Twinkling stars */}
+      {[5,15,25,35,45,55,65,75,85,92,10,30,50,70,80].map((x, i) => (
         <motion.div
           key={i}
           className="absolute text-yellow-300 pointer-events-none"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            fontSize: `${Math.random() * 10 + 6}px`,
-            opacity: Math.random() * 0.4 + 0.1,
+            left: `${x}%`,
+            top: `${[10,20,15,30,8,25,12,18,22,35,60,70,80,65,90][i]}%`,
+            fontSize: `${[8,6,10,7,9,6,8,7,10,6,8,9,7,6,10][i]}px`,
           }}
           animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.8, 1.2, 0.8] }}
-          transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 3 }}
+          transition={{ duration: 2 + i * 0.3, repeat: Infinity, delay: i * 0.2 }}
         >
           ✦
         </motion.div>
       ))}
 
       <div className="relative z-10 max-w-2xl mx-auto w-full">
-        {/* Header */}
+
+        {/* Section heading */}
         <motion.div
           className="text-center mb-10"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-[#D4AF37] text-xs uppercase tracking-widest mb-2">✦ Our Story ✦</p>
+          <p className="text-[#D4AF37] text-xs uppercase tracking-widest mb-2">✦ Our Journey ✦</p>
           <h2
             className="text-2xl sm:text-4xl font-bold text-white"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            The Couple
+            Buusha & Renuka
           </h2>
           <div className="h-0.5 w-24 mx-auto mt-3" style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }} />
         </motion.div>
 
-        {/* Doodle couple (floating) */}
-        <motion.div
-          className="flex justify-center mb-8"
-          initial={{ opacity: 0, scale: 0.7 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
-        >
-          <div
-            className="relative p-3 rounded-2xl"
+        {/* Three couple images — slide in from sides and bottom */}
+        <div className="flex justify-center items-end gap-3 sm:gap-6 mb-12">
+          <motion.img
+            src="/assets/doodle/couple-garland.png"
+            alt="Couple with garlands"
+            className="w-28 sm:w-40 object-contain rounded-2xl"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '2px solid rgba(212,175,55,0.4)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+              filter: 'drop-shadow(0 12px 32px rgba(212,175,55,0.5))',
+              animation: 'bounceGentle 4s ease-in-out infinite',
             }}
-          >
-            <img
-              src="/assets/doodle/couple-poses.png"
-              alt="Couple cartoon poses"
-              className="w-64 sm:w-80 object-contain rounded-xl"
-              style={{ animation: 'bounceGentle 4s ease-in-out infinite' }}
-              onError={e => {
-                const el = e.target as HTMLImageElement
-                el.style.display = 'none'
-                // Show fallback emoji art
-                const fallback = el.nextElementSibling as HTMLElement
-                if (fallback) fallback.style.display = 'flex'
-              }}
-            />
-            {/* Emoji fallback */}
-            <div
-              className="hidden w-64 sm:w-80 h-48 items-center justify-center text-center"
-              style={{ animation: 'bounceGentle 4s ease-in-out infinite' }}
-            >
-              <div>
-                <p className="text-6xl">💑</p>
-                <p className="text-[#D4AF37] mt-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                  Buusha & Renuka
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Real photos slider */}
-        <div className="mt-4">
-          <motion.p
-            className="text-center text-[#D4AF37] text-sm mb-4 opacity-70 uppercase tracking-wider"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+            initial={{ x: -70, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
-          >
-            ✦ Our Moments ✦
-          </motion.p>
-
-          {/* Photo display */}
-          <motion.div
-            className="relative mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.1, type: 'spring', bounce: 0.3 }}
+          />
+          {/* Center — couple holding hands, slightly larger */}
+          <motion.img
+            src="/assets/couple/couple-holding.png"
+            alt="Buusha & Renuka"
+            className="w-36 sm:w-52 object-contain rounded-2xl"
+            style={{
+              filter: 'drop-shadow(0 16px 40px rgba(139,26,43,0.4))',
+              animation: 'bounceGentle 4s ease-in-out infinite 0.3s',
+            }}
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div
-              className="relative rounded-2xl overflow-hidden mx-auto"
-              style={{
-                maxWidth: '320px',
-                aspectRatio: '3/4',
-                boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 0 0 3px rgba(212,175,55,0.4)',
-              }}
-            >
-              <img
-                key={activePhoto}
-                src={REAL_PHOTOS[activePhoto].src}
-                alt={REAL_PHOTOS[activePhoto].alt}
-                className="w-full h-full object-cover"
-                onError={e => {
-                  ;(e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='400' viewBox='0 0 320 400'%3E%3Crect width='320' height='400' fill='%23FFF8F0'/%3E%3Ctext x='160' y='200' text-anchor='middle' fill='%238B1A2B' font-size='48'%3E💑%3C/text%3E%3C/svg%3E"
-                }}
-              />
-              {/* Caption overlay */}
-              <div
-                className="absolute bottom-0 left-0 right-0 p-4"
-                style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.7))' }}
+            transition={{ duration: 0.85, delay: 0.2, type: 'spring', bounce: 0.3 }}
+          />
+          <motion.img
+            src="/assets/doodle/couple-poses.png"
+            alt="Couple waving"
+            className="w-28 sm:w-40 object-contain rounded-2xl"
+            style={{
+              filter: 'drop-shadow(0 12px 32px rgba(212,175,55,0.5))',
+              animation: 'bounceGentle 4s ease-in-out infinite 0.6s',
+            }}
+            onError={e => { ;(e.target as HTMLImageElement).style.display = 'none' }}
+            initial={{ x: 70, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.3, type: 'spring', bounce: 0.3 }}
+          />
+        </div>
+
+        {/* Journey timeline */}
+        <div className="relative px-2 sm:px-8">
+          {/* Vertical center line — desktop only */}
+          <div
+            className="absolute left-1/2 top-6 bottom-6 w-px -translate-x-1/2 hidden sm:block"
+            style={{ background: 'linear-gradient(180deg, transparent, #D4AF37 15%, #D4AF37 85%, transparent)' }}
+          />
+
+          <div className="flex flex-col gap-10">
+            {MILESTONES.map((step, i) => (
+              <motion.div
+                key={i}
+                className={`flex items-center gap-4 sm:gap-6 ${step.side === 'right' ? 'sm:flex-row-reverse' : 'sm:flex-row'} flex-row`}
+                initial={{ opacity: 0, x: step.side === 'left' ? -70 : 70 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
               >
-                <p className="text-white text-sm font-medium text-center">
-                  {REAL_PHOTOS[activePhoto].caption}
-                </p>
-              </div>
-            </div>
+                {/* Text */}
+                <div className={`flex-1 ${step.side === 'right' ? 'sm:text-right' : 'sm:text-left'} text-left`}>
+                  <p
+                    className="text-white font-bold text-base sm:text-xl leading-tight"
+                    style={{ fontFamily: 'Playfair Display, serif' }}
+                  >
+                    {step.title}
+                  </p>
+                  <p
+                    className="text-[#D4AF37] text-xs mt-0.5"
+                    style={{ fontFamily: 'Noto Serif Tamil, serif' }}
+                  >
+                    {step.titleTamil}
+                  </p>
+                  <p
+                    className="text-white/60 text-sm mt-1"
+                    style={{ fontFamily: 'Poppins' }}
+                  >
+                    {step.desc}
+                  </p>
+                </div>
 
-            {/* Navigation dots */}
-            <div className="flex justify-center gap-2 mt-4">
-              {REAL_PHOTOS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActivePhoto(i)}
-                  className="transition-all duration-300 rounded-full"
+                {/* Center icon bubble */}
+                <motion.div
+                  className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-2xl z-10"
                   style={{
-                    width: i === activePhoto ? '24px' : '8px',
-                    height: '8px',
-                    background: i === activePhoto
-                      ? 'linear-gradient(90deg, #8B1A2B, #D4AF37)'
-                      : 'rgba(212,175,55,0.4)',
+                    background: 'linear-gradient(135deg, #8B1A2B, #D4AF37)',
+                    boxShadow: '0 0 24px rgba(212,175,55,0.45)',
                   }}
-                />
-              ))}
-            </div>
+                  animate={{ scale: [1, 1.08, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
+                >
+                  {step.icon}
+                </motion.div>
 
-            {/* Prev / Next */}
-            <div className="flex justify-center gap-4 mt-3">
-              <motion.button
-                onClick={() => setActivePhoto(p => (p - 1 + REAL_PHOTOS.length) % REAL_PHOTOS.length)}
-                className="px-4 py-1.5 rounded-full text-sm font-medium"
-                style={{
-                  background: 'rgba(212,175,55,0.2)',
-                  border: '1px solid rgba(212,175,55,0.4)',
-                  color: '#F5D76E',
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                ← Prev
-              </motion.button>
-              <motion.button
-                onClick={() => setActivePhoto(p => (p + 1) % REAL_PHOTOS.length)}
-                className="px-4 py-1.5 rounded-full text-sm font-medium"
-                style={{
-                  background: 'rgba(212,175,55,0.2)',
-                  border: '1px solid rgba(212,175,55,0.4)',
-                  color: '#F5D76E',
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Next →
-              </motion.button>
-            </div>
-          </motion.div>
+                {/* Spacer — desktop alternating layout */}
+                <div className="flex-1 hidden sm:block" />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Love quote */}
         <motion.div
-          className="text-center mt-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.3 }}
         >
           <p
             className="text-[#F5D76E] text-base sm:text-lg italic"
