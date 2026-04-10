@@ -20,6 +20,7 @@ import FinalScene from './FinalScene'
 export default function MainContent() {
   const params = useSearchParams()
   const guestName = params.get('name') || params.get('guest') || ''
+  const guestMessage = params.get('message') || params.get('msg') || ''
   const [loaded, setLoaded] = useState(false)
 
   return (
@@ -35,7 +36,7 @@ export default function MainContent() {
 
           <main>
             {/* 1. Greeting */}
-            <Greeting guestName={guestName} />
+            <Greeting guestName={guestName} guestMessage={guestMessage} />
 
             {/* 2. Funny Tanglish Message */}
             <FunnyMessage />

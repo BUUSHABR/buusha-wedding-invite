@@ -10,7 +10,7 @@ export default function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playing, setPlaying] = useState(false)
   const [hasAudio, setHasAudio] = useState(false)
-  const [attempted, setAttempted] = useState(false)
+  const playingRef = useRef(false)
 
   useEffect(() => {
     fetch(AUDIO_SRC, { method: 'HEAD' })
@@ -18,56 +18,56 @@ export default function MusicToggle() {
       .catch(() => {})
   }, [])
 
-  // Try autoplay on first scroll or touch
+  // Auto-start on first user interaction — persists until music actually plays
   useEffect(() => {
-    if (!hasAudio || attempted) return
+    if (!hasAudio) return
 
-    const tryAutoplay = async () => {
-      if (attempted || !audioRef.current) return
-      setAttempted(true)
+    const tryPlay = async () => {
+      if (playingRef.current || !audioRef.current) return
       try {
         audioRef.current.currentTime = START_SECONDS
         await audioRef.current.play()
+        playingRef.current = true
         setPlaying(true)
+        removeListeners()
       } catch {
-        // Autoplay blocked — user must tap button
+        // Still blocked — keep listeners, retry on next interaction
       }
     }
 
-    const onInteraction = () => {
-      tryAutoplay()
-      window.removeEventListener('scroll', onInteraction)
-      window.removeEventListener('touchstart', onInteraction)
-      window.removeEventListener('click', onInteraction)
+    const removeListeners = () => {
+      document.removeEventListener('scroll', tryPlay)
+      document.removeEventListener('touchstart', tryPlay)
+      document.removeEventListener('click', tryPlay)
+      document.removeEventListener('keydown', tryPlay)
     }
 
-    // Small delay then try, also listen for any interaction
-    const timer = setTimeout(tryAutoplay, 2000)
-    window.addEventListener('scroll', onInteraction, { once: true })
-    window.addEventListener('touchstart', onInteraction, { once: true })
-    window.addEventListener('click', onInteraction, { once: true })
+    // Immediate attempt (works when browser allows autoplay)
+    tryPlay()
 
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('scroll', onInteraction)
-      window.removeEventListener('touchstart', onInteraction)
-      window.removeEventListener('click', onInteraction)
-    }
-  }, [hasAudio, attempted])
+    // Keep listening until it starts — fires on scroll, tap, or any click
+    document.addEventListener('scroll', tryPlay, { passive: true })
+    document.addEventListener('touchstart', tryPlay, { passive: true })
+    document.addEventListener('click', tryPlay)
+    document.addEventListener('keydown', tryPlay)
+
+    return removeListeners
+  }, [hasAudio])
 
   const toggle = async () => {
     if (!audioRef.current) return
     try {
       if (playing) {
         audioRef.current.pause()
+        playingRef.current = false
         setPlaying(false)
       } else {
-        if (!attempted || audioRef.current.currentTime < START_SECONDS) {
+        if (audioRef.current.currentTime < START_SECONDS) {
           audioRef.current.currentTime = START_SECONDS
         }
         await audioRef.current.play()
+        playingRef.current = true
         setPlaying(true)
-        setAttempted(true)
       }
     } catch {
       // blocked
@@ -79,6 +79,7 @@ export default function MusicToggle() {
   return (
     <>
       <audio ref={audioRef} src={AUDIO_SRC} loop />
+
       <motion.button
         onClick={toggle}
         className="fixed bottom-20 right-4 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl"
@@ -95,29 +96,16 @@ export default function MusicToggle() {
       >
         <AnimatePresence mode="wait">
           {playing ? (
-            <motion.span
-              key="playing"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              className="text-xl"
-            >
+            <motion.span key="playing" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="text-xl">
               🎵
             </motion.span>
           ) : (
-            <motion.span
-              key="paused"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              className="text-xl"
-            >
+            <motion.span key="paused" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="text-xl">
               🔇
             </motion.span>
           )}
         </AnimatePresence>
 
-        {/* Pulse ring when playing */}
         {playing && (
           <motion.div
             className="absolute inset-0 rounded-full border-2 border-[#D4AF37]"
@@ -127,7 +115,6 @@ export default function MusicToggle() {
         )}
       </motion.button>
 
-      {/* "Now playing" label — fades in briefly */}
       <AnimatePresence>
         {playing && (
           <motion.div

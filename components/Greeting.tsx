@@ -5,16 +5,7 @@ import { useState } from 'react'
 
 interface GreetingProps {
   guestName: string
-}
-
-// Add special personal messages here — key is the URL ?name= value (case-insensitive)
-const SPECIAL_MESSAGES: Record<string, string> = {
-  'Suganya':    'My dear Periya Akka ❤️',
-  'Amma':       'Ungal aasiyil nangal vazhvom 🙏',
-  'Appa':       'Ungal aasiyil nangal vazhvom 🙏',
-  'Renuka':     'My dearest bride-to-be 💍',
-  // Add more guests below:
-  // 'GuestName': 'Your special message',
+  guestMessage?: string
 }
 
 const STARS = Array.from({ length: 20 }, (_, i) => ({
@@ -25,13 +16,10 @@ const STARS = Array.from({ length: 20 }, (_, i) => ({
   delay: (i % 6) * 0.5,
 }))
 
-export default function Greeting({ guestName }: GreetingProps) {
+export default function Greeting({ guestName, guestMessage }: GreetingProps) {
   const [stars] = useState(STARS)
 
-  // Case-insensitive lookup for special message
-  const specialMessage = Object.entries(SPECIAL_MESSAGES).find(
-    ([key]) => key.toLowerCase() === guestName.toLowerCase().trim()
-  )?.[1] ?? null
+  const specialMessage = guestMessage?.trim() || null
 
   return (
     <section
